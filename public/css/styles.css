@@ -1,0 +1,11 @@
+
+.filter-scroll{
+    overflow-y: auto;
+    height: 100px;
+    background-color: beige;
+    width: content-box;
+}
+
+.align-center{
+    align-content: center;
+}
