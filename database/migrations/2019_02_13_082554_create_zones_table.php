@@ -13,7 +13,7 @@ class CreateZonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('zoneWhereClause', function (Blueprint $table) {
+        Schema::create('zones', function (Blueprint $table) {
             $table->increments('id');
             $table->string("zone");
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateZonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('zoneWhereClause');
+        Schema::dropIfExists('zones');
     }
 }

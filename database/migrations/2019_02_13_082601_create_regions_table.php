@@ -13,7 +13,7 @@ class CreateRegionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('regionWhereClause', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->increments('id');
             $table->string("region");
             $table->unsignedInteger("zone_id");
@@ -21,7 +21,7 @@ class CreateRegionsTable extends Migration
 
             $table->foreign("zone_id")
                 ->references("id")
-                ->on("zoneWhereClause")
+                ->on("zones")
                 ->onDelete("cascade")
                 ->onUpdate("cascade");
         });
@@ -34,6 +34,6 @@ class CreateRegionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('regionWhereClause');
+        Schema::dropIfExists('regions');
     }
 }

@@ -8,8 +8,8 @@
         <th scope="col">Crop</th>
         <th scope="col">Livelihood System</th>
         <th scope="col">Season</th>
-        <th scope="col">Production period</th>
-        <th scope="col">Production</th>
+        <th scope="col">production</th>
+        <th scope="col">off season production</th>
         </thead>
         <tbody>
 
@@ -21,8 +21,8 @@
             <td>{{item.crop}}</td>
             <td>{{item.livelihood_system}}</td>
             <td>{{item.season}}</td>
-            <td>{{item.production_period}}</td>
-            <td>{{item.production}}</td>
+            <td>{{item.season_production}}</td>
+            <td>{{item.off_season_production}}</td>
         </tr>
         </tbody>
     </table>

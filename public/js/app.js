@@ -19922,9 +19922,9 @@ var render = function() {
           _vm._v(" "),
           _c("td", [_vm._v(_vm._s(item.season))]),
           _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(item.production_period))]),
+          _c("td", [_vm._v(_vm._s(item.season_production))]),
           _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(item.production))])
+          _c("td", [_vm._v(_vm._s(item.off_season_production))])
         ])
       }),
       0
@@ -19951,9 +19951,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { attrs: { scope: "col" } }, [_vm._v("Season")]),
       _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("Production period")]),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("production")]),
       _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("Production")])
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("off season production")])
     ])
   }
 ]
@@ -34409,8 +34409,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/Kigen/Sites/CropData/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/Kigen/Sites/CropData/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/kigen/Documents/Projects/Web/CropData/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/kigen/Documents/Projects/Web/CropData/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

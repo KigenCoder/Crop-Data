@@ -13,7 +13,7 @@ class CreateDistrictsTable extends Migration
      */
     public function up()
     {
-        Schema::create('districtsWhereClause', function (Blueprint $table) {
+        Schema::create('districts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('district');
             $table->unsignedInteger('region_id');
@@ -21,7 +21,7 @@ class CreateDistrictsTable extends Migration
 
             $table->foreign('region_id')
                 ->references('id')
-                ->on('regionWhereClause')
+                ->on('regions')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -35,6 +35,6 @@ class CreateDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('districtsWhereClause');
+        Schema::dropIfExists('districts');
     }
 }

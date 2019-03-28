@@ -8,9 +8,8 @@
         </div>
 
         <div class="tile is-ancestor">
-            <div class="tile is-parent is-vertical is-10 ">
-
-         <crops-table></crops-table>
+            <div class="tile is-parent is-vertical is-11 ">
+                <crops-table></crops-table>
             </div>
 
 

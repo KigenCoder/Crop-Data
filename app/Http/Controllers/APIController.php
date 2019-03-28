@@ -6,8 +6,7 @@ use DB;
 use App\Crop;
 use App\CropData;
 use App\Zone;
-use App\Region;
-use App\District;
+
 use App\LiveliHoodSystem;
 use Illuminate\Http\Request;
 
@@ -19,7 +18,7 @@ class APIController extends Controller
     public function data()
     {
         $query = $this->data_query();
-        $query .= "ORDER by year desc, season, production_period ";
+        $query .= "ORDER by year desc, season ";
         $cropData = DB::select(DB::raw($query));
         return json_encode($cropData);
     }
@@ -29,7 +28,7 @@ class APIController extends Controller
             $filterString = $request->all()['filter'];
             $query = $this->data_query();
             $query .= $filterString;
-            $query .= "ORDER by year desc, season, production_period ";
+            $query .= "ORDER by year desc, season ";
             $cropData = DB::select(DB::raw($query));
             return json_encode($cropData);
         }
@@ -82,7 +81,8 @@ class APIController extends Controller
 
     public function data_query()
     {
-        $query = "SELECT d.id, z.zone, r.region, dr.district, d.year, c.crop, l.livelihood_system, s.season, p.production_period, d.production ";
+        $query = "SELECT d.id, z.zone, r.region, dr.district, d.year, c.crop, ";
+        $query .= "l.livelihood_system, s.season, d.season_production, d.off_season_production ";
         $query .= "FROM crop_data d ";
         $query .= "JOIN districts dr on dr.id = d.district_id ";
         $query .= "JOIN regions r on r.id = dr.region_id ";
@@ -90,7 +90,6 @@ class APIController extends Controller
         $query .= "JOIN livelihood_systems l on l.id = d.livelihood_system_id ";
         $query .= "JOIN seasons s ON s.id = d.season_id ";
         $query .= "JOIN crops c on c.id = d.crop_id ";
-        $query .= "JOIN production_periods p on p.id = d.production_period_id ";
         return $query;
     }
 

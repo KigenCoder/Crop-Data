@@ -51,7 +51,6 @@ export const store = new Vuex.Store({
 
             if (zoneFilter) {
                 this.clauses.push(zoneFilter)
-
             }
             if (regionFilter) {
                 this.clauses.push(regionFilter)
