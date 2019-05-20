@@ -17,7 +17,6 @@
     import {mapState} from 'vuex'
 
     export default {
-        name: 'Seasons',
         data() {
             return {
                 selectedSeasons: []
