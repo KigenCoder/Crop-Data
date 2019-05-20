@@ -13,4 +13,5 @@
 
 
 Route::get("/", "DisplayCropData@index");
+Route::get("chart", "DisplayCropData@chart");
 

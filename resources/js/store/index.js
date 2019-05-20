@@ -11,15 +11,18 @@ export const store = new Vuex.Store({
         zones: [],
         regions: [],
         districts: [],
+        seasons: [],
         clauses: [],
         where_clause: null,
         region_filter: '',
         districts_filter: '',
+        seasons_filter: '',
 
         filters: {
             where_zones: null,
             where_regions: null,
             where_districts: null,
+            where_seasons: null,
             where_years: null,
             where_crops: null,
             where_livelihoods: null,
@@ -48,6 +51,7 @@ export const store = new Vuex.Store({
             let yearFilter = this.state.filters.where_years
             let cropsFilter = this.state.filters.where_crops
             let livelihoodsFilter = this.state.filters.where_livelihoods
+            let seasonsFilter = this.state.filters.where_seasons
 
             if (zoneFilter) {
                 this.clauses.push(zoneFilter)
@@ -61,6 +65,10 @@ export const store = new Vuex.Store({
 
             if (yearFilter) {
                 this.clauses.push(yearFilter)
+            }
+
+            if (seasonsFilter) {
+                this.clauses.push(seasonsFilter)
             }
 
             if (cropsFilter) {
@@ -81,7 +89,7 @@ export const store = new Vuex.Store({
                 }
             }
 
-            console.log("Where clause: ", this.state.where_clause)
+            //console.log("Where clause: ", this.state.where_clause)
 
             axios
                 .post('./api/filter', {
@@ -153,6 +161,17 @@ export const store = new Vuex.Store({
                 })
         },
 
+        loadSeasons({commit}) {
+            axios
+                .get('api/seasons')
+                .then(response => {
+                    commit('LOAD_SEASONS', response.data)
+                })
+                .catch(error => {
+                    console.log("Load seasons error: " + error)
+                })
+        },
+
 
     },
     mutations: {
@@ -174,6 +193,10 @@ export const store = new Vuex.Store({
             state.districts = districts
         },
 
+        LOAD_SEASONS(state, seasons) {
+            state.seasons = seasons
+        },
+
         // Crop data where cluase
         SET_WHERE_CLAUSE(state, where_clause) {
             state.where_clause = where_clause
@@ -192,6 +215,11 @@ export const store = new Vuex.Store({
         //Districts where clause
         WHERE_DISTRICTS(state, where_districts) {
             state.filters.where_districts = where_districts
+        },
+
+        //Districts where clause
+        WHERE_SEASONS(state, where_seasons) {
+            state.filters.where_seasons = where_seasons
         },
 
         //Years where clause
@@ -223,6 +251,10 @@ export const store = new Vuex.Store({
 
         DISTRICTS_FILTER(state, districtFilter) {
             state.districts_filter = districtFilter
+        },
+
+        SEASONS_FILTER(state, seasonsFilter) {
+            state.seasons_filter = seasonsFilter
         }
 
 
@@ -232,14 +264,17 @@ export const store = new Vuex.Store({
         zones: state => state.zones,
         regions: state => state.regions,
         districts: state => state.districts,
+        seasons: state => state.seasons,
         whereClause: state => state.where_clause,
         zoneClause: state => state.filters.where_zones,
         regionClause: state => state.filters.where_regions,
         districtClause: state => state.filters.where_districts,
+        seasonsClause: state => state.filters.where_seasons,
         filters: state => state.filters,
         clauses: state => state.clauses,
         regionFilter: state => state.region_filter,
         districtFilter: state => state.districts_filter,
+        seasonsFilter: state => state.filters.where_seasons,
         yearsFilter: state => state.filters.where_years,
         cropsFilter: state => state.filters.where_crops,
         livelihoodsFilter: state => state.filters.where_livelihoods,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Season;
 use DB;
 use App\Crop;
 use App\CropData;
@@ -23,7 +24,8 @@ class APIController extends Controller
         return json_encode($cropData);
     }
 
-    public function filter_data(Request $request){
+    public function filter_data(Request $request)
+    {
         if ($request->has('filter')) {
             $filterString = $request->all()['filter'];
             $query = $this->data_query();
@@ -76,7 +78,10 @@ class APIController extends Controller
         return json_encode($districts);
     }
 
-
+    public function seasons()
+    {
+        return json_decode(Season::all());
+    }
 
 
     public function data_query()

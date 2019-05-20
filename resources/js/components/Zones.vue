@@ -1,15 +1,18 @@
 <template>
-    <ul>
-        <li v-for="zone in zones">
-            <input
+    <div>
+        <ul>
+            <li v-for="zone in zones">
+                <input
                     type="checkbox"
                     v-bind:value="zone.id"
                     v-model="selectedZones"
                     @change="zoneSelected($event)"
-            >
-            {{zone.zone}}
-        </li>
-    </ul>
+                >
+                {{zone.zone}}
+            </li>
+        </ul>
+    </div>
+
 </template>
 <script>
     import {mapState} from 'vuex'

@@ -11,4 +11,11 @@ class DisplayCropData extends Controller
     {
         return view("data.index");
     }
+
+    public function chart(){
+        /*
+         * By Region -> District, Years, Crops
+         */
+        return view("data.chart");
+    }
 }

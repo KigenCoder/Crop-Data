@@ -12,7 +12,7 @@
     "devDependencies": {
         "axios": "^0.18",
         "cross-env": "^5.1",
-        "laravel-mix": "^4.0.7",
+        "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
@@ -21,6 +21,7 @@
         "vue-template-compiler": "^2.6.6"
     },
     "dependencies": {
+        "clusterize.js": "^0.18.1",
         "es6-promise": "^4.2.6",
         "validate.js": "^0.12.0",
         "vue-router": "^3.0.2",
