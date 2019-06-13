@@ -1,4 +1,4 @@
-import CropsTable from "./components/CropsTable";
+import CropsTable from "./components/table/CropsTable";
 
 export const routes = [
     {

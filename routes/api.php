@@ -13,5 +13,6 @@ Route::get('zones', "APIController@zones");
 Route::post("filter", "APIController@filter_data");
 Route::post('regions', "APIController@regions");
 Route::post('districts', "APIController@districts");
+Route::post('chart-data', "APIController@chartData");
 Route::get('seasons', 'APIController@seasons');
 Route::get("search_params", "APIController@search_params");

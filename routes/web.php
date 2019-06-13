@@ -12,6 +12,6 @@
 */
 
 
-Route::get("/", "DisplayCropData@index");
-Route::get("chart", "DisplayCropData@chart");
+Route::get("/", "CropData@index");
+Route::get("chart", "CropData@chart");
 

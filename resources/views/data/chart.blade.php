@@ -2,63 +2,56 @@
 
 @section("content")
     <div id="app">
-        <div class="tile is-ancestor">
-            <div class="tile is-parent is-vertical is-11 ">
-                <div>
-
-                </div>
-
-            </div>
-
-
-            <div class="tile is-parent">
-                <div class="tile is-ancestor">
-                    <div class="tile is-vertical" style="margin-top: 10px;">
-                        <!-- Regions Filter -->
-                        <div>
-                            <p class="align-center">
-                                <strong>REGIONS</strong>
-                            </p>
-                            <div class="filter-scroll">
-                                <regions></regions>
-                            </div>
+        <div class="tile is-ancestor container" style="margin-top: 10px">
+            <div class="tile is-parent is-3" >
+                <div class="tile is-child is-vertical box ">
+                    <!-- Regions Filter -->
+                    <div>
+                        <p class="align-center">
+                            <strong>REGIONS</strong>
+                        </p>
+                        <div class="filter-scroll">
+                            <chart-regions></chart-regions>
                         </div>
+                    </div>
 
-                        <!-- Districts Filter -->
-                        <div>
-                            <p class="align-center">
-                                <strong>DISTRICTS</strong>
-                            </p>
-                            <div class="filter-scroll">
-                                <districts></districts>
-                            </div>
+                    <!-- Districts Filter -->
+                    <div>
+                        <p class="align-center">
+                            <strong>DISTRICTS</strong>
+                        </p>
+                        <div class="filter-scroll">
+                            <chart-districts></chart-districts>
                         </div>
-
-                        <!-- Years Filter -->
-                        <div>
-                            <p class="align-center">
-                                <strong>YEAR</strong>
-                            </p>
-                            <div class="filter-scroll">
-                                <years></years>
-                            </div>
-                        </div>
-
-
-
-                        <!-- Crops -->
-                        <div>
-                            <p class="align-center">
-                                <strong>CROPS</strong>
-                            </p>
-                            <div class="filter-scroll">
-                                <crops></crops>
-                            </div>
-                        </div>
-
                     </div>
 
 
+                    <!-- Crops -->
+                    <div>
+                        <p class="align-center">
+                            <strong>CROPS</strong>
+                        </p>
+                        <div class="filter-scroll">
+                            <chart-crops></chart-crops>
+                        </div>
+                    </div>
+
+                    <!-- Seasons Filter -->
+                    <div>
+                        <p class="align-center">
+                            <strong>Seasons</strong>
+                        </p>
+                        <div class="filter-scroll">
+                            <chart-seasons></chart-seasons>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile is-parent box container">
+                <div class="tile is-child">
+                    <!-- Chart -->
+                    <chart-data></chart-data>
                 </div>
             </div>
 
