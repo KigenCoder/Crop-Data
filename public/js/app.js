@@ -1881,11 +1881,9 @@ __webpack_require__.r(__webpack_exports__);
 
           for (i = 0; i < chartItems.length; i++) {
             cropName = chartItems[i].crop;
-            location = chartItems[i].location; // let season = chartItems[i].season
-
-            var seasonData = chartItems[i].seasonData;
-            seasonData.forEach(function (dataItem) {
-              //console.log(season + ": " + dataItem.year + " => " + dataItem.harvest)
+            location = chartItems[i].location;
+            var chartDataItems = chartItems[i].chartDataItems;
+            chartDataItems.forEach(function (dataItem) {
               years.push(dataItem.year);
               labels.push(dataItem.year);
               values.push(dataItem.harvest);

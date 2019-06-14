@@ -19,10 +19,8 @@
           for (i = 0; i < chartItems.length; i++) {
             cropName = chartItems[i].crop;
             location = chartItems[i].location;
-            // let season = chartItems[i].season
-            let seasonData = chartItems[i].seasonData
-            seasonData.forEach(dataItem => {
-              //console.log(season + ": " + dataItem.year + " => " + dataItem.harvest)
+            let chartDataItems = chartItems[i].chartDataItems
+            chartDataItems.forEach(dataItem => {
               years.push(dataItem.year)
               labels.push(dataItem.year)
               values.push(dataItem.harvest)

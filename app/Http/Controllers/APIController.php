@@ -108,8 +108,8 @@ class APIController extends Controller
       $district_id = $request->has('district_id') ? $request->all()['district_id'] : NULL;
       $season_filter = $request->has('season_filter') ? $request->all()['season_filter'] : NULL;
 
-      if($season_filter !== ''){
-             $season_filter .= " ";
+      if ($season_filter !== '') {
+        $season_filter .= " ";
       }
       $location = '';
 
@@ -119,6 +119,7 @@ class APIController extends Controller
 
       if (!is_null($region_id) && is_null($district_id)) {
         $query = $this->regionQuery($crop_id, $region_id, $season_filter);
+
         //Get region
         $region = Region::findOrFail($region_id);
         $location = $region->region;
@@ -133,25 +134,19 @@ class APIController extends Controller
       $queryData = DB::select(DB::raw($query));
 
       $data = array();
-      $gu_season = array();
-      $deyr_season = array();
+      $chartDataItems = array();
+
+
 
       foreach ($queryData as $dataItem) {
         $off_season_production = is_numeric($dataItem->off_season_production) ? $dataItem->off_season_production : 0;
         $season_production = is_numeric($dataItem->season_production) ? $dataItem->season_production : 0;
         $year = $dataItem->year;
         $harvest = $off_season_production + $season_production;
-
-        if (strcasecmp($dataItem->season, 'Gu') == 0) {
-
-          $gu_season[] = new ChartDataItem($year, $harvest);
-        } elseif (strcasecmp($dataItem->season, 'Deyr') == 0) {
-          $deyr_season[] = new ChartDataItem($year, $harvest);
-        }
+        $chartDataItems[] =new ChartDataItem($year, $harvest);
       }
 
-      $data[] = new ChartData($cropName, $location, 'Gu', $gu_season);
-      $data[] = new ChartData($cropName, $location, "Deyr", $deyr_season);
+      $data[] = new ChartData($cropName, $location, $chartDataItems);
 
       return json_encode($data);
 
@@ -164,40 +159,36 @@ class APIController extends Controller
 
   protected function regionQuery($crop_id, $region_id, $season_filter)
   {
-    $query = "SELECT r.region, s.season, c.season_id, c.year, ";
-    $query .= "SUM(c.off_season_production) as off_season_production,  ";
-    $query .= "SUM(c.season_production) as season_production ";
-    $query .= "FROM crop_data c ";
-    $query .= "JOIN districts d ON d.id = c.district_id ";
-    $query .= "JOIN regions r ON r.id = d.region_id ";
-    $query .= "JOIN seasons s ON s.id = c.season_id ";
-    $query .= "WHERE c.crop_id = $crop_id ";
-    $query .= "AND  d.region_id = $region_id  ";
+    $query = "SELECT r.region, c.year, SUM(c.off_season_production) as off_season_production, ";
+    $query.= "SUM(c.season_production) as season_production ";
+    $query.= "FROM crop_data c ";
+    $query.= "JOIN districts d ON d.id = c.district_id ";
+    $query.= "JOIN regions r ON r.id = d.region_id ";
+    $query.= "JOIN seasons s ON s.id = c.season_id ";
+    $query.= "WHERE c.crop_id = $crop_id ";
+    $query.= "AND d.region_id = $region_id ";
     $query .= $season_filter;
-    $query .= "AND  c.year > 2007 ";
-    $query .= "GROUP by r.region, s.season, c.season_id, c.year ";
+    $query.= "AND  c.year > 2007 ";
+    $query.= "GROUP by r.region, c.year ";
     $query .= "ORDER BY c.year ";
-
-
     return $query;
   }
 
-  protected function districtQuery($crop_id, $district_id, $season_filter)
-  {
-    $query = "SELECT d.district, s.season, c.season_id, c.year, ";
-    $query .= "SUM(c.off_season_production) as off_season_production,  ";
+  protected function districtQuery($crop_id, $district_id, $season_filter){
+    $query = "SELECT c.district_id, year, SUM(c.off_season_production) as off_season_production, ";
     $query .= "SUM(c.season_production) as season_production ";
     $query .= "FROM crop_data c ";
     $query .= "JOIN districts d ON d.id = c.district_id ";
     $query .= "JOIN regions r ON r.id = d.region_id ";
     $query .= "JOIN seasons s ON s.id = c.season_id ";
     $query .= "WHERE c.crop_id = $crop_id ";
-    $query .= "AND  c.district_id = $district_id  ";
-    $query .= "AND  c.year > 2007 ";
+    $query .= "AND  c.district_id = $district_id ";
     $query .= $season_filter;
-    $query .= "GROUP by d.district, s.season, c.season_id, c.year ";
-    $query .= "ORDER BY c.year ";
+    $query .="AND  c.year > 2007 ";
+    $query .="GROUP BY c.district_id, year ";
+    $query .="ORDER BY c.year ";
     return $query;
+
   }
 
 

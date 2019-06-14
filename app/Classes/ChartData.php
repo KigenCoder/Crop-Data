@@ -8,22 +8,19 @@ class ChartData
 {
   public $crop;
   public $location;
-  public $season;
-  public $seasonData;
+  public $chartDataItems;
 
   /**
    * ChartData constructor.
    * @param $crop
    * @param $location
-   * @param $season
-   * @param $seasonData
+   * @param $chartDataItems
    */
-  public function __construct($crop, $location, $season, array $seasonData)
+  public function __construct($crop, $location, array $chartDataItems)
   {
     $this->crop = $crop;
     $this->location = $location;
-    $this->season = $season;
-    $this->seasonData = $seasonData;
+    $this->chartDataItems = $chartDataItems;
   }
 
   /**
@@ -59,37 +56,20 @@ class ChartData
   }
 
   /**
-   * @return mixed
-   */
-  public function getSeason()
-  {
-    return $this->season;
-  }
-
-  /**
-   * @param mixed $season
-   */
-  public function setSeason($season): void
-  {
-    $this->season = $season;
-  }
-
-  /**
    * @return array
    */
-  public function getSeasonData(): array
+  public function getChartDataItems(): array
   {
-    return $this->seasonData;
+    return $this->chartDataItems;
   }
 
   /**
-   * @param array $seasonData
+   * @param array $chartDataItems
    */
-  public function setSeasonData(array $seasonData): void
+  public function setChartDataItems(array $chartDataItems): void
   {
-    $this->seasonData = $seasonData;
+    $this->chartDataItems = $chartDataItems;
   }
-
 
 
 
