@@ -1,5 +1,5 @@
 const state = {
-  cropId: '',
+  cropsFilter: '',
   regionId: '',
   districtId: '',
   districts: [],
@@ -26,14 +26,12 @@ const actions = {
 
   //Load chart data
   loadChartData({commit}) {
-    console.log(state.seasonFilter)
     axios
       .post('./api/chart-data', {
         region_id : state.regionId,
         district_id: state.districtId,
-        crop_id: state.cropId,
+        crops_filter: state.cropsFilter,
         season_filter: state.seasonFilter,
-
 
       })
       .then(response => {
@@ -54,23 +52,23 @@ const mutations = {
 
   },
 
-  mutateCropId(state, cropId){
-    state.cropId = cropId
-  },
-
   mutateRegionId(state, regionId) {
     state.regionId = regionId
   },
   mutateDistrictId(state, districtId){
     state.districtId = districtId
   },
+  mutateCropsFilter(state, cropsFilter){
+    state.cropsFilter = cropsFilter
+  },
+
   mutateSeasonsFilter(state, seasonsFilter){
     state.seasonFilter = seasonsFilter
   }
 }
 const getters = {
   //zones: state => state.zones,
-  getCropId: state=>state.cropId,
+  getCropsFilter: state=>state.cropsFilter,
   getRegionId: state =>state.regionId,
   getDistrictId: state=>state.districtId,
   getChartData: state=>state.chartData,

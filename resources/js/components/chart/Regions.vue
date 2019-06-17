@@ -48,6 +48,8 @@
         //Reset districtId
         this.$store.commit('chart_data/mutateDistrictId', null)
 
+
+
         //Fetch data - If crop data is set
         if (this.$store.getters['chart_data/getCropId']) {
           this.$store.dispatch('chart_data/loadChartData')

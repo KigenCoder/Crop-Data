@@ -1937,21 +1937,24 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       crops: [],
-      selectedCrop: ''
+      selectedCrops: []
     };
   },
   methods: {
     cropsSelected: function cropsSelected() {
-      //Reset current data
-      this.$store.commit('chart_data/mutateChartData', []); //Save selected crop
+      if (this.selectedCrops.length > 0) {
+        //Reset current data
+        this.$store.commit('chart_data/mutateChartData', []);
+        var cropsFilter = "c.crop_id IN (" + this.selectedCrops.toString() + ") "; //Save selected crop(s)
 
-      this.$store.commit('chart_data/mutateCropId', this.selectedCrop); //check if region/district is set, then fetch data
+        this.$store.commit('chart_data/mutateCropsFilter', cropsFilter); //check if region/district is set, then fetch data
 
-      var districtId = this.$store.getters['chart_data/getDistrictId'];
-      var regionId = this.$store.getters['chart_data/getRegionId'];
+        var districtId = this.$store.getters['chart_data/getDistrictId'];
+        var regionId = this.$store.getters['chart_data/getRegionId'];
 
-      if (districtId || regionId) {
-        this.$store.dispatch('chart_data/loadChartData');
+        if (districtId || regionId) {
+          this.$store.dispatch('chart_data/loadChartData');
+        }
       }
     }
   },
@@ -2127,7 +2130,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     seasonSelected: function seasonSelected() {
       if (this.selectedSeasons.length > 0) {
-        var seasonsFilter = "AND c.season_id IN (" + this.selectedSeasons.toString() + ") "; //console.log(seasonsFilter)
+        var seasonsFilter = "c.season_id IN (" + this.selectedSeasons.toString() + ") "; //console.log(seasonsFilter)
 
         this.$store.commit('chart_data/mutateSeasonsFilter', seasonsFilter);
       } else {
@@ -2135,11 +2138,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       var getters = this.$store.getters;
-      var cropId = getters['chart_data/getCropId'];
+      var cropsFilter = getters['chart_data/getCropsFilter'];
       var regionId = getters['chart_data/getRegionId'];
-      var districtId = getters['chart_data/getDistrictId']; //console.log(cropId + " - " + regionId + " " + districtId)
+      var districtId = getters['chart_data/getDistrictId'];
 
-      if (cropId && (regionId || districtId)) {
+      if (cropsFilter && (regionId || districtId)) {
         this.$store.dispatch('chart_data/loadChartData');
       }
     }
@@ -52789,19 +52792,37 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.selectedCrop,
-              expression: "selectedCrop"
+              value: _vm.selectedCrops,
+              expression: "selectedCrops"
             }
           ],
-          attrs: { type: "radio" },
+          attrs: { type: "checkbox" },
           domProps: {
             value: crop.id,
-            checked: _vm._q(_vm.selectedCrop, crop.id)
+            checked: Array.isArray(_vm.selectedCrops)
+              ? _vm._i(_vm.selectedCrops, crop.id) > -1
+              : _vm.selectedCrops
           },
           on: {
             change: [
               function($event) {
-                _vm.selectedCrop = crop.id
+                var $$a = _vm.selectedCrops,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = crop.id,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.selectedCrops = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.selectedCrops = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.selectedCrops = $$c
+                }
               },
               function($event) {
                 return _vm.cropsSelected()
@@ -52809,7 +52830,7 @@ var render = function() {
             ]
           }
         }),
-        _vm._v("\n        " + _vm._s(crop.crop) + "\n    ")
+        _vm._v("\n    " + _vm._s(crop.crop) + "\n  ")
       ])
     }),
     0
@@ -67687,7 +67708,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var state = {
-  cropId: '',
+  cropsFilter: '',
   regionId: '',
   districtId: '',
   districts: [],
@@ -67710,11 +67731,10 @@ var actions = {
   //Load chart data
   loadChartData: function loadChartData(_ref2) {
     var commit = _ref2.commit;
-    console.log(state.seasonFilter);
     axios.post('./api/chart-data', {
       region_id: state.regionId,
       district_id: state.districtId,
-      crop_id: state.cropId,
+      crops_filter: state.cropsFilter,
       season_filter: state.seasonFilter
     }).then(function (response) {
       commit('mutateChartData', response.data);
@@ -67730,14 +67750,14 @@ var mutations = {
   mutateDistricts: function mutateDistricts(state, districts) {
     state.districts = districts;
   },
-  mutateCropId: function mutateCropId(state, cropId) {
-    state.cropId = cropId;
-  },
   mutateRegionId: function mutateRegionId(state, regionId) {
     state.regionId = regionId;
   },
   mutateDistrictId: function mutateDistrictId(state, districtId) {
     state.districtId = districtId;
+  },
+  mutateCropsFilter: function mutateCropsFilter(state, cropsFilter) {
+    state.cropsFilter = cropsFilter;
   },
   mutateSeasonsFilter: function mutateSeasonsFilter(state, seasonsFilter) {
     state.seasonFilter = seasonsFilter;
@@ -67745,8 +67765,8 @@ var mutations = {
 };
 var getters = {
   //zones: state => state.zones,
-  getCropId: function getCropId(state) {
-    return state.cropId;
+  getCropsFilter: function getCropsFilter(state) {
+    return state.cropsFilter;
   },
   getRegionId: function getRegionId(state) {
     return state.regionId;

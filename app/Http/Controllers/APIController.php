@@ -107,35 +107,29 @@ class APIController extends Controller
       $region_id = $request->has('region_id') ? $request->all()['region_id'] : NULL;
       $district_id = $request->has('district_id') ? $request->all()['district_id'] : NULL;
       $season_filter = $request->has('season_filter') ? $request->all()['season_filter'] : NULL;
-
-      if ($season_filter !== '') {
-        $season_filter .= " ";
-      }
-      $location = '';
+      $crop_filter = $request->has('crops_filter') ? $request->all()['crops_filter'] : NULL;
 
 
-      $crop_id = $request->all()['crop_id'];
       $query = "";
+      $location = "";
 
       if (!is_null($region_id) && is_null($district_id)) {
-        $query = $this->regionQuery($crop_id, $region_id, $season_filter);
+        $query = $this->regionQuery($crop_filter, $region_id, $season_filter);
 
         //Get region
         $region = Region::findOrFail($region_id);
         $location = $region->region;
 
       } elseif (!is_null($district_id)) {
-        $query = $this->districtQuery($crop_id, $district_id, $season_filter);
+        $query = $this->districtQuery($crop_filter, $district_id, $season_filter);
         $district = District::findOrFail($district_id);
         $location = $district->district;
       }
-      $cropObject = Crop::findOrFail($crop_id);
-      $cropName = $cropObject->crop;
+
       $queryData = DB::select(DB::raw($query));
 
       $data = array();
       $chartDataItems = array();
-
 
 
       foreach ($queryData as $dataItem) {
@@ -143,10 +137,30 @@ class APIController extends Controller
         $season_production = is_numeric($dataItem->season_production) ? $dataItem->season_production : 0;
         $year = $dataItem->year;
         $harvest = $off_season_production + $season_production;
-        $chartDataItems[] =new ChartDataItem($year, $harvest);
+        $chartDataItems[] = new ChartDataItem($year, $harvest);
       }
 
-      $data[] = new ChartData($cropName, $location, $chartDataItems);
+      //GET CROP IDS - Format string
+
+      $cropWhereClause = str_replace("crop_id", "id", $crop_filter);
+      $cropsQuery = "SELECT c.crop from crops c WHERE ". $cropWhereClause;;
+
+      $selectedCrops = DB::SELECT(DB::raw($cropsQuery));
+
+      $cropNames = "";
+
+      for($i=0; $i<count($selectedCrops); $i++){
+
+        if($i != count($selectedCrops) -1){
+          //Before last element
+          $cropNames .=  $selectedCrops[$i]->crop .", ";
+        }else{
+          $cropNames .=  $selectedCrops[$i]->crop;
+        }
+      }
+
+
+      $data[] = new ChartData($cropNames, $location, $chartDataItems);
 
       return json_encode($data);
 
@@ -157,36 +171,37 @@ class APIController extends Controller
   }
 
 
-  protected function regionQuery($crop_id, $region_id, $season_filter)
+  protected function regionQuery($crop_filter, $region_id, $season_filter)
   {
     $query = "SELECT r.region, c.year, SUM(c.off_season_production) as off_season_production, ";
-    $query.= "SUM(c.season_production) as season_production ";
-    $query.= "FROM crop_data c ";
-    $query.= "JOIN districts d ON d.id = c.district_id ";
-    $query.= "JOIN regions r ON r.id = d.region_id ";
-    $query.= "JOIN seasons s ON s.id = c.season_id ";
-    $query.= "WHERE c.crop_id = $crop_id ";
-    $query.= "AND d.region_id = $region_id ";
-    $query .= $season_filter;
-    $query.= "AND  c.year > 2007 ";
-    $query.= "GROUP by r.region, c.year ";
+    $query .= "SUM(c.season_production) as season_production ";
+    $query .= "FROM crop_data c ";
+    $query .= "JOIN districts d ON d.id = c.district_id ";
+    $query .= "JOIN regions r ON r.id = d.region_id ";
+    $query .= "JOIN seasons s ON s.id = c.season_id ";
+    $query .= "WHERE d.region_id = $region_id ";
+    $query .= strlen($crop_filter) > 0 ? "AND " . $crop_filter : "";
+    $query .= strlen($season_filter) > 0 ? " AND " . $season_filter : "";
+    $query .= " AND  c.year > 2007 ";
+    $query .= "GROUP by r.region, c.year ";
     $query .= "ORDER BY c.year ";
     return $query;
   }
 
-  protected function districtQuery($crop_id, $district_id, $season_filter){
+  protected function districtQuery($crop_filter, $district_id, $season_filter)
+  {
     $query = "SELECT c.district_id, year, SUM(c.off_season_production) as off_season_production, ";
     $query .= "SUM(c.season_production) as season_production ";
     $query .= "FROM crop_data c ";
     $query .= "JOIN districts d ON d.id = c.district_id ";
     $query .= "JOIN regions r ON r.id = d.region_id ";
     $query .= "JOIN seasons s ON s.id = c.season_id ";
-    $query .= "WHERE c.crop_id = $crop_id ";
-    $query .= "AND  c.district_id = $district_id ";
-    $query .= $season_filter;
-    $query .="AND  c.year > 2007 ";
-    $query .="GROUP BY c.district_id, year ";
-    $query .="ORDER BY c.year ";
+    $query .= "WHERE c.district_id = $district_id ";
+    $query .= strlen($crop_filter) > 0 ? "AND " . $crop_filter : "";
+    $query .= strlen($season_filter) > 0 ? " AND " . $season_filter : "";
+    $query .= " AND  c.year > 2007 ";
+    $query .= "GROUP BY c.district_id, year ";
+    $query .= "ORDER BY c.year ";
     return $query;
 
   }

@@ -39,7 +39,7 @@
 
         if (this.selectedSeasons.length > 0) {
 
-          let seasonsFilter = "AND c.season_id IN (" + this.selectedSeasons.toString() + ") "
+          let seasonsFilter = "c.season_id IN (" + this.selectedSeasons.toString() + ") "
           //console.log(seasonsFilter)
           this.$store.commit('chart_data/mutateSeasonsFilter', seasonsFilter)
 
@@ -48,13 +48,13 @@
         }
 
         let getters = this.$store.getters
-        let cropId  = getters['chart_data/getCropId']
+        let cropsFilter  = getters['chart_data/getCropsFilter']
         let regionId = getters['chart_data/getRegionId']
         let districtId = getters['chart_data/getDistrictId']
 
-        //console.log(cropId + " - " + regionId + " " + districtId)
 
-        if(cropId && (regionId || districtId)){
+
+        if(cropsFilter && (regionId || districtId)){
           this.$store.dispatch('chart_data/loadChartData')
         }
 
