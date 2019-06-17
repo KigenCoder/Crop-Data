@@ -1,6 +1,6 @@
 <template>
     <div class="clusterize">
-        <table class="table is-bordered is-fullwidth small-font">
+        <table class="table is-bordered is-narrow small-font">
             <thead>
             <th scope="col">Zone</th>
             <th scope="col">Region</th>

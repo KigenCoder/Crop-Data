@@ -2015,7 +2015,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.commit('chart_data/mutateDistrictId', this.selectedDistrict); //Check if crop ID is set, then get data
       //Fetch data - If crop data is set
 
-      if (this.$store.getters['chart_data/cropId']) {
+      if (this.$store.getters['chart_data/getCropId']) {
         this.$store.dispatch('chart_data/loadChartData');
       }
     }
@@ -2075,7 +2075,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$store.commit('chart_data/mutateDistrictId', null); //Fetch data - If crop data is set
 
-      if (this.$store.getters['chart_data/cropId']) {
+      if (this.$store.getters['chart_data/getCropId']) {
         this.$store.dispatch('chart_data/loadChartData');
       }
     }
@@ -53102,7 +53102,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "clusterize" }, [
-    _c("table", { staticClass: "table is-bordered is-fullwidth small-font" }, [
+    _c("table", { staticClass: "table is-bordered is-narrow small-font" }, [
       _vm._m(0),
       _vm._v(" "),
       _c(
