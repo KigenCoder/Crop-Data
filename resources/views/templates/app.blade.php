@@ -12,48 +12,32 @@
 </head>
 
 <body>
-<div class="container">
-    <div class="tile is-ancestor container is-vertical">
-        <div class="tile  is-parent">
-            <section class="hero is-primary is-small">
-                <div class="hero-body">
-                    <div class="navbar-brand">
-                        <img src="../../images/fsnau_logo.png" alt="FSNAU">
-                        <div class="container" style="margin-top: 20px; margin-left: 20px;">
-                            <p class="title">
-                                CROP PRODUCTION DATA
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+<div class="container top-margin" >
+    <div class="section box panel-background">
+        <nav class="navbar panel-background" role="navigation">
+            <!-- FSNAU LOGO -->
+            <div class="navbar-brand navbar-start">
+                <img src="../../images/fsnau_logo.png" alt="FSNAU" width="200" height="120">
+            </div>
 
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-start">
-                </div>
+            <!-- Title -->
+            <div class="navbar-brand">
+                    <p class="title is-2 is-primary">Crop Production Data</p>
+            </div>
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-link" href="{{action('CropData@index')}}">
-                                <strong>TABLE</strong>
-                            </a>
-                            <a class="button is-link" href="{{action('CropData@chart')}}">
-                                CHART
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!-- FAO LOGO -->
+            <div class="navbar-brand navbar-end">
+                <img src="../../images/fao_logo.png" alt="FAO" width="100" height="80">
             </div>
         </nav>
-        <div class="tile is-parent">
-            @yield('content')
-        </div>
-
-
     </div>
+
+
+
+    <div class="tile is-parent" >
+        @yield('content')
+    </div>
+</div>
 
 
 </div>

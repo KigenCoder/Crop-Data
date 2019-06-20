@@ -2,60 +2,20 @@
 .filter-scroll{
     overflow-y: auto;
     height: 80px;
-    background-color: beige;
+    background-color: #EEF7F9;
     width: content-box;
 }
 
-.align-center{
-    align-content: center;
+.panel-background{
+    background-color: #EEF7F9;
 }
 
-.default_table {
-    margin: 10px;
+.top-margin{
+    margin-top: 10px;
 }
 
-.vertical_scroll{
-    background-color: oldlace;
-    height: 300px;
-    overflow: auto;
+.header-background{
+    background-color: lightgray;
 }
 
-.header-fixed {
-    width: 100%
-}
 
-.small-font{
-    font-size: medium;
-}
-
-.header-fixed > thead,
-.header-fixed > tbody,
-.header-fixed > thead > tr,
-.header-fixed > tbody > tr,
-.header-fixed > thead > tr > th,
-.header-fixed > tbody > tr > td {
-    display: block;
-}
-
-.header-fixed > tbody > tr:after,
-.header-fixed > thead > tr:after {
-    content: ' ';
-    display: block;
-    visibility: hidden;
-    clear: both;
-}
-
-.header-fixed > tbody {
-    overflow-y: auto;
-    height: 600px;
-}
-
-.header-fixed > tbody > tr > td,
-.header-fixed > thead > tr > th {
-    width: 10%;
-    float: left;
-}
-
-.bottom_spacer{
-    margin: 20px;
-}

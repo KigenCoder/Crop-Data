@@ -7,7 +7,7 @@
       let cropName = ''
       let location = ''
       this.$store.subscribe((mutation, state) => {
-        if (mutation.type == 'chart_data/mutateChartData') {
+        if (mutation.type === 'chart_data/mutateChartData') {
 
           //console.log(mutation.payload)
           let chartItems = state.chart_data['chartData']

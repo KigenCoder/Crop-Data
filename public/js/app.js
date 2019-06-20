@@ -1870,7 +1870,7 @@ __webpack_require__.r(__webpack_exports__);
     var cropName = '';
     var location = '';
     this.$store.subscribe(function (mutation, state) {
-      if (mutation.type == 'chart_data/mutateChartData') {
+      if (mutation.type === 'chart_data/mutateChartData') {
         (function () {
           //console.log(mutation.payload)
           var chartItems = state.chart_data['chartData'];
@@ -2249,7 +2249,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2258,7 +2257,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.$store.dispatch('tabular_data/loadData');
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('tabular_data', ['cropData']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('tabular_data', ['cropData'])),
+  methods: {
+    production: function production(season, off_season) {
+      season = +season;
+      off_season = +off_season;
+
+      if (isNaN(season)) {
+        season = 0;
+      }
+
+      if (isNaN(off_season)) {
+        off_season = 0;
+      }
+
+      return Math.round(season + off_season).toLocaleString();
+    }
+  }
 });
 
 /***/ }),
@@ -53122,8 +53137,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "clusterize" }, [
-    _c("table", { staticClass: "table is-bordered is-narrow small-font" }, [
+  return _c(
+    "table",
+    {
+      staticClass: "table is-bordered is-striped is-narrow small-font is-size-7"
+    },
+    [
       _vm._m(0),
       _vm._v(" "),
       _c(
@@ -53144,15 +53163,24 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(item.season))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(item.season_production))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(item.off_season_production))])
+            _c("td", { staticStyle: { "text-align": "right" } }, [
+              _vm._v(
+                "\n         " +
+                  _vm._s(
+                    _vm.production(
+                      item.season_production,
+                      item.off_season_production
+                    )
+                  ) +
+                  "\n    "
+              )
+            ])
           ])
         }),
         0
       )
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -53174,9 +53202,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { attrs: { scope: "col" } }, [_vm._v("Season")]),
       _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("production")]),
-      _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("off season prod'n")])
+      _c("th", { attrs: { scope: "col" } }, [
+        _vm._v("Production (Metric tones)")
+      ])
     ])
   }
 ]
