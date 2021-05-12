@@ -21,7 +21,7 @@
         "vue-template-compiler": "^2.6.6"
     },
     "dependencies": {
-        "chart.js": "^2.8.0",
+        "chart.js": "^2.9.4",
         "clusterize.js": "^0.18.1",
         "es6-promise": "^4.2.6",
         "validate.js": "^0.12.0",
